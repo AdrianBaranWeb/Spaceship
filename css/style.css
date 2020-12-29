@@ -113,7 +113,8 @@ body{
     animation: move-34-units-x var(--explosions-animation-time) steps(17) forwards;
 }
 
-.missle{
+.missile{
+    position: absolute;
     width: 12px;
     height: 24px;
     background-image: url('../images/missile.png');
