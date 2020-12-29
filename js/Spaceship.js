@@ -63,11 +63,11 @@ export class Spaceship{
     }
 
     #whatKey(){
-        if(this.#leftArrow && this.#getPosition() > this.#spaceWidth / 2) {
+        if(this.#leftArrow && this.#getPosition() > 12) {
             this.element.style.left = `${parseInt(this.element.style.left, 10) - this.#modifire}px`
         }
 
-        if(this.#rightArrow && this.#getPosition() < window.innerWidth - this.#spaceWidth / 2) {
+        if(this.#rightArrow && this.#getPosition() < window.innerWidth - 12) {
             this.element.style.left = `${parseInt(this.element.style.left, 10) + this.#modifire}px`
         }
     }

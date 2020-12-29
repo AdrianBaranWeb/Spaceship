@@ -1,5 +1,5 @@
-import { Missile } from "./Missile.js"
 import { Spaceship } from "./Spaceship.js"
+import { Enemy } from "./Enemy.js"
 
 class Game{
     #htmlElements = {
@@ -9,7 +9,11 @@ class Game{
 
     #ship = new Spaceship(this.#htmlElements.spaceship, this.#htmlElements.container)
 
+    #enemies = []
+    #enemiesSpeed = null
+    
     #checkPositionInterval = null
+    #createEnemyInterval = null
           
     init(){
         this.#ship.init()
@@ -17,7 +21,20 @@ class Game{
     }
 
     #newGame(){
-        this.#checkPositionInterval = this.setInterval(() => this.#checkPosition(), 1);
+        this.#enemiesSpeed = 40
+        this.#createEnemyInterval = setInterval(() => this.#randomNewEnemy(), 1000)
+        this.#checkPositionInterval = setInterval(() => this.#checkPosition(), 1)
+    }
+
+    #randomNewEnemy(){
+        const randomNumber = Math.floor(Math.random() * 5) + 1
+        randomNumber % 5 ? this.#createNewEnemy('enemy', null, this.#enemiesSpeed) : this.#createNewEnemy('enemy--big', 3, this.#enemiesSpeed * 2)
+    }
+
+    #createNewEnemy(enemyType, enemyLives, enemySpeed){
+        const enemy = new Enemy(this.#htmlElements.container, enemyType, enemySpeed, enemyLives)
+        enemy.init()
+        this.#enemies.push(enemy)
     }
 
     #checkPosition(){
@@ -33,6 +50,21 @@ class Game{
             if(missilePosition.bottom < 0){
                 missile.remove()
                 missileArr.splice(missileIndex, 1)
+            }
+        })
+
+        this.#enemies.forEach((enemy, enemyIndex, enemiesArr) => {
+            
+            const enemyPosition = {
+                top: enemy.element.offsetTop,
+                right: enemy.element.offsetLeft + enemy.element.offsetWidth,
+                bottom: enemy.element.offsetTop + enemy.element.offsetHeight,
+                left: enemy.element.offsetLeft,
+            }
+
+            if(enemyPosition.top > window.innerHeight){
+                enemy.remove()
+                enemiesArr.splice(enemyIndex, 1)
             }
         })
     }
