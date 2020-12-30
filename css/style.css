@@ -1,8 +1,8 @@
 :root{
     --primary-color: #09fcfd;
     --size-unit: 64px;
-    --ship-animation-time: .2s;
-    --explosions-animation-time: .6s;
+    --ship-animation-time: 200ms;
+    --explosions-animation-time: 600ms;
 }
 
 *, *::after, *::before{
@@ -103,6 +103,7 @@ body{
 }
 
 .explosion{
+    position: fixed;
     width: var(--size-unit);
     height: var(--size-unit);
     background-image: url('../images/explosion.png');
@@ -110,6 +111,7 @@ body{
 }
 
 .explosion--big{
+    position: fixed;
     width: calc(var(--size-unit) * 2);
     height: calc(var(--size-unit) * 2);
     background-image: url('../images/explosion-big.png');
