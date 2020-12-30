@@ -90,6 +90,9 @@ class Game{
 
     #updateScore(){
         this.#score++
+        if(!(this.#score % 5)){
+            this.#enemiesSpeed--
+        }
         this.#updateScoreText()
     }
 
@@ -100,10 +103,12 @@ class Game{
     #updateLives(){
         this.#lives--
         this.#updateLivesText()
+        this.#htmlElements.container.classList.add('hit')
+        setTimeout(() => this.#htmlElements.container.classList.remove('hit'), 500)
     }
 
     #updateLivesText(){
-        this.#htmlElements.score.textContent = `Score: ${this.#lives}`
+        this.#htmlElements.lives.textContent = `Lives: ${this.#lives}`
     }
 }
 
