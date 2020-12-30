@@ -7,14 +7,16 @@ export class Spaceship{
     #leftArrow = false
     #rightArrow = false
     #spaceWidth = null
-
+    #shooter = 0
+    #shootInterval = null
+    
     constructor(element, container){
         this.element = element
         this.container = container
         this.#spaceWidth = this.element.offsetWidth
     }
 
-
+    
     init(){
         this.#setPosition()
         this.#eventListeners()
@@ -34,7 +36,11 @@ export class Spaceship{
         window.addEventListener('keydown', ({keyCode}) => {
             switch(keyCode){
                 case 32:
-                    this.#shoot()
+                    if(this.#shooter < 1){
+                        this.#shoot()
+                        this.#shootInterval = setInterval(() => this.#shoot(), 1000)
+                        this.#shooter++
+                    } 
                 break
                 case 37:
                     this.#leftArrow = true
@@ -47,6 +53,10 @@ export class Spaceship{
 
         window.addEventListener('keyup', ({keyCode}) => {
             switch(keyCode){
+                case 32:
+                    this.#shooter = 0
+                    clearInterval(this.#shootInterval)
+                break
                 case 37:
                     this.#leftArrow = false
                 break
@@ -72,7 +82,7 @@ export class Spaceship{
         }
     }
 
-    #shoot(){
+    #shoot(){ 
         const missile = new Missile(this.#getPosition(), this.element.offsetTop, this.container)
         missile.init()
         this.missiles.push(missile)
